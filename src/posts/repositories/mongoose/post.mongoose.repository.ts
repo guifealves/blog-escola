@@ -25,7 +25,11 @@ export class PostMongooseRepository implements PostRepository {
     await this.postModel
       .updateOne(
         { _id: id },
-        { title: post.title, content: post.content, updatedAt: post.updatedAt },
+        {
+          title: post.title,
+          content: post.content,
+          updatedAt: post.updatedAt,
+        },
       )
       .exec();
   }
