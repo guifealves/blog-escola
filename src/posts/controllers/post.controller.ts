@@ -33,6 +33,12 @@ export class PostController {
     return this.postService.getAllPosts(limit, page);
   }
 
+  // Busca de Posts
+  @Get('search')
+  async searchPostsByKeyword(@Query('keyword') keyword: string) {
+    return this.postService.searchPostsByKeyword(keyword);
+  }
+
   // Leitura de Posts
   @Get(':id')
   async getPostById(@Param('id') id: string) {
@@ -56,6 +62,4 @@ export class PostController {
   async deletePost(@Param('id') id: string) {
     return this.postService.deletePost(id);
   }
-
-  // Busca de Posts
 }

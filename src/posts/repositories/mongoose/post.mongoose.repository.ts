@@ -37,4 +37,15 @@ export class PostMongooseRepository implements PostRepository {
   async deletePost(id: string): Promise<void> {
     await this.postModel.findByIdAndDelete(id).exec();
   }
+
+  async searchPostsByKeyword(keyword: string): Promise<IPost[]> {
+    return this.postModel
+      .find({
+        $or: [
+          { title: { $regex: keyword, $options: 'i' } },
+          { content: { $regex: keyword, $options: 'i' } },
+        ],
+      })
+      .exec();
+  }
 }
