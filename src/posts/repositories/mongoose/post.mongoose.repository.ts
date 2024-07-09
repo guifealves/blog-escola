@@ -10,7 +10,7 @@ export class PostMongooseRepository implements PostRepository {
   getAllPosts(
     limit: number,
     page: number,
-  ): Promise<{ id: string; title: string; author: string }[]> {
+  ): Promise<{ id: string; title: string; author: string; createdAt: Date }[]> {
     const offset = (page - 1) * limit;
     return this.postModel
       .find()
@@ -21,6 +21,7 @@ export class PostMongooseRepository implements PostRepository {
           id: post._id.toString(),
           title: post.title,
           author: post.author,
+          createdAt: post.createdAt,
         }));
       });
   }
