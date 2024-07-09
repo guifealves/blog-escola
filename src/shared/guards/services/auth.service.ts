@@ -14,7 +14,7 @@ export class AuthService {
     const teacher = await this.teacherService.getTeacherByEmail(email);
 
     if (teacher && (await bcrypt.compare(password, teacher.password))) {
-      const { password, ...result } = teacher;
+      const { ...result } = teacher;
       return result;
     }
 

@@ -7,9 +7,22 @@ import { Model } from 'mongoose';
 export class PostMongooseRepository implements PostRepository {
   constructor(@InjectModel(Post.name) private postModel: Model<Post>) {}
 
-  getAllPosts(limit: number, page: number): Promise<IPost[]> {
+  getAllPosts(
+    limit: number,
+    page: number,
+  ): Promise<{ id: string; title: string; author: string }[]> {
     const offset = (page - 1) * limit;
-    return this.postModel.find().skip(offset).exec();
+    return this.postModel
+      .find()
+      .skip(offset)
+      .exec()
+      .then((posts) => {
+        return posts.map((post) => ({
+          id: post._id.toString(),
+          title: post.title,
+          author: post.author,
+        }));
+      });
   }
 
   getPostById(id: string): Promise<IPost> {
