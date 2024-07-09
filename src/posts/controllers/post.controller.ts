@@ -27,6 +27,7 @@ export class PostController {
   }
 
   // Listagem de Todas as Postagens (Visão Administrativa)
+  @UseGuards(AuthGuard)
   @Get('admin')
   async getAllPostsAdmin(
     @Query('limit') limit: number,
