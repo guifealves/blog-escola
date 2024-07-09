@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { TeacherRepository } from '../repositories/teacher.repository';
 
 @Injectable()
@@ -11,6 +11,10 @@ export class TeacherService {
   }
 
   async getTeacherByEmail(email: string) {
-    return this.teacherRepository.getTeacherByEmail(email);
+    const teacher = this.teacherRepository.getTeacherByEmail(email);
+    if (!teacher) {
+      throw new NotFoundException('Teacher not found');
+    }
+    return teacher;
   }
 }
