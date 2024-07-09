@@ -14,6 +14,8 @@ export class Teacher implements ITeacher {
   email: string;
   @Prop()
   password: string;
+  @Prop()
+  createdAt?: Date;
 }
 
 export const TeacherSchema = SchemaFactory.createForClass(Teacher);

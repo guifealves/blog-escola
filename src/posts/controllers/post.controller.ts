@@ -7,9 +7,11 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { PostService } from '../services/post.service';
 import { IPost } from '../schemas/models/post.interface';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
 
 @Controller('posts')
 export class PostController {
@@ -46,18 +48,21 @@ export class PostController {
   }
 
   // Criação de Postagens
+  @UseGuards(AuthGuard)
   @Post()
   async createPost(@Body() post: IPost) {
     return this.postService.createPost(post);
   }
 
   // Edição de Postagens
+  @UseGuards(AuthGuard)
   @Put(':id')
   async updatePost(@Param('id') id: string, @Body() post: IPost) {
     return this.postService.updatePost(id, post);
   }
 
   // Exclusão de Postagens
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async deletePost(@Param('id') id: string) {
     return this.postService.deletePost(id);

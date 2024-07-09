@@ -6,6 +6,7 @@ export class TeacherService {
   constructor(private readonly teacherRepository: TeacherRepository) {}
 
   async createTeacher(teacher) {
+    teacher.createdAt = new Date();
     return this.teacherRepository.createTeacher(teacher);
   }
 

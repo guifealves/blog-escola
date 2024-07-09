@@ -5,6 +5,7 @@ import { TeacherRepository } from './repositories/teacher.repository';
 import { TeacherMongooseRepository } from './repositories/mongoose/teacher.mongoose.repository';
 import { TeacherService } from './services/teacher.service';
 import { TeacherController } from './controllers/teacher.controller';
+import { AuthService } from 'src/shared/guards/services/auth.service';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { TeacherController } from './controllers/teacher.controller';
       useClass: TeacherMongooseRepository,
     },
     TeacherService,
+    AuthService,
   ],
   controllers: [TeacherController],
 })

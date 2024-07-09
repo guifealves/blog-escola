@@ -1,11 +1,22 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { TeacherService } from '../services/teacher.service';
 import { ITeacher } from '../schemas/models/teacher.interface';
 import { hash } from 'bcrypt';
+import { AuthService } from 'src/shared/guards/services/auth.service';
 
 @Controller('teachers')
 export class TeacherController {
-  constructor(private readonly teacherService: TeacherService) {}
+  constructor(
+    private readonly teacherService: TeacherService,
+    private authService: AuthService,
+  ) {}
 
   @Post()
   async createTeacher(@Body() teacher: ITeacher) {
@@ -17,5 +28,15 @@ export class TeacherController {
   @Get(':email')
   async getTeacherByEmail(@Param('email') email: string) {
     return this.teacherService.getTeacherByEmail(email);
+  }
+
+  @Post('signin')
+  async signIn(@Body() body: { email: string; password: string }) {
+    const user = await this.authService.validateUser(body.email, body.password);
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    return this.authService.login(user);
   }
 }
