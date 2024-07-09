@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IPost } from './models/post.interface';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-export type ProductDocument = HydratedDocument<Post>;
+export type PostDocument = HydratedDocument<Post>;
 
 @Schema()
 export class Post implements IPost {
