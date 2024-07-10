@@ -1,0 +1,32 @@
+FROM node:18-alpine
+
+WORKDIR /usr/app
+
+COPY package.json ./
+
+RUN npm install
+
+COPY . .
+
+ARG MONGODB_URI
+ARG JWT_SECRET
+
+ENV MONGODB_URI=$MONGODB_URI
+ENV JWT_SECRET=$JWT_SECRET
+
+RUN echo "MONGODB_URI=${MONGODB_URI}" > .env
+RUN echo "JWT_SECRET=${JWT_SECRET}" >> .env
+RUN echo "PORT=3000" >> .env
+
+RUN npm install bcrypt --build-from-source
+
+RUN npm i -g pnpm
+
+RUN pnpm build
+
+EXPOSE 3000
+
+CMD ["node", "dist/main.js"]
+
+# docker build -t blog-escola:latest --build-arg "MONGODB_URI=mongodb+srv://user-blog-escola:p59fcaY82moMxrgS@blog-escola.ku8gx6v.mongodb.net/blog-escola" --build-arg "JWT_SECRET=jaigurudev" .
+# docker run --name blog-escola -p 3000:3000 -d -t blog-escola:latest
