@@ -10,7 +10,9 @@ import { TeacherService } from '../services/teacher.service';
 import { ITeacher } from '../schemas/models/teacher.interface';
 import { hash } from 'bcrypt';
 import { AuthService } from 'src/shared/guards/services/auth.service';
+import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('teachers')
 @Controller('teachers')
 export class TeacherController {
   constructor(
@@ -19,6 +21,7 @@ export class TeacherController {
   ) {}
 
   @Post()
+  @ApiExcludeEndpoint()
   async createTeacher(@Body() teacher: ITeacher) {
     const hashedPassword = await hash(teacher.password, 8);
     teacher.password = hashedPassword;
@@ -26,6 +29,7 @@ export class TeacherController {
   }
 
   @Get(':email')
+  @ApiExcludeEndpoint()
   async getTeacherByEmail(@Param('email') email: string) {
     return this.teacherService.getTeacherByEmail(email);
   }

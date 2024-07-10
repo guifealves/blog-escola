@@ -12,7 +12,9 @@ import {
 import { PostService } from '../services/post.service';
 import { IPost } from '../schemas/models/post.interface';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('posts')
 @Controller('posts')
 export class PostController {
   constructor(private readonly postService: PostService) {}
@@ -29,6 +31,7 @@ export class PostController {
   // Listagem de Todas as Postagens (Visão Administrativa)
   @UseGuards(AuthGuard)
   @Get('admin')
+  @ApiBearerAuth()
   async getAllPostsAdmin(
     @Query('limit') limit: number,
     @Query('page') page: number,
@@ -51,6 +54,7 @@ export class PostController {
   // Criação de Postagens
   @UseGuards(AuthGuard)
   @Post()
+  @ApiBearerAuth()
   async createPost(@Body() post: IPost) {
     return this.postService.createPost(post);
   }
@@ -58,6 +62,7 @@ export class PostController {
   // Edição de Postagens
   @UseGuards(AuthGuard)
   @Put(':id')
+  @ApiBearerAuth()
   async updatePost(@Param('id') id: string, @Body() post: IPost) {
     return this.postService.updatePost(id, post);
   }
@@ -65,6 +70,7 @@ export class PostController {
   // Exclusão de Postagens
   @UseGuards(AuthGuard)
   @Delete(':id')
+  @ApiBearerAuth()
   async deletePost(@Param('id') id: string) {
     return this.postService.deletePost(id);
   }
