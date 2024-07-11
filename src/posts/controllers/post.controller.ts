@@ -15,7 +15,7 @@ import { IPost } from '../schemas/models/post.interface';
 import { AuthGuard } from '../../shared/guards/auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { z } from 'zod';
-import { ZodValidationPipe } from 'src/shared/pipe/zod-validation.pipe';
+import { ZodValidationPipe } from '../../shared/pipe/zod-validation.pipe';
 
 const createPostSchema = z.object({
   title: z.string(),

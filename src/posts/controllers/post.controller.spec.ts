@@ -59,7 +59,7 @@ describe('PostController', () => {
     it('should return an array of posts', async () => {
       const limit = 10;
       const page = 1;
-      const result: {
+      const expectedPosts: {
         id: string;
         title: string;
         author: string;
@@ -73,11 +73,11 @@ describe('PostController', () => {
           createdAt: new Date(),
         },
       ];
-      jest.spyOn(postService, 'getAllPosts').mockResolvedValue(result);
+      jest.spyOn(postService, 'getAllPosts').mockResolvedValue(expectedPosts);
 
       const posts = await controller.getAllPosts(limit, page);
 
-      expect(posts).toEqual(result);
+      expect(posts).toEqual(expectedPosts);
       expect(postService.getAllPosts).toHaveBeenCalledWith(limit, page);
     });
   });
@@ -86,7 +86,7 @@ describe('PostController', () => {
     it('should return an array of posts for admin', async () => {
       const limit = 10;
       const page = 1;
-      const result: IPost[] = [
+      const expectedPosts: IPost[] = [
         {
           id: '1',
           title: 'Post 1',
@@ -102,18 +102,19 @@ describe('PostController', () => {
           createdAt: new Date(),
         },
       ];
-      jest.spyOn(postService, 'getAllPostsAdmin').mockResolvedValue(result);
+      jest.spyOn(postService, 'getAllPostsAdmin').mockResolvedValue(expectedPosts);
 
       const posts = await controller.getAllPostsAdmin(limit, page);
 
-      expect(posts).toEqual(result);
+      expect(posts).toEqual(expectedPosts);
       expect(postService.getAllPostsAdmin).toHaveBeenCalledWith(limit, page);
     });
   });
 
   describe('searchPostsByKeyword', () => {
     it('should return an array of posts matching the keyword', async () => {
-      const result: IPost[] = [
+      const keyword = 'keyword';
+      const expectedPosts: IPost[] = [
         {
           id: '1',
           title: 'Post 1',
@@ -129,30 +130,30 @@ describe('PostController', () => {
           createdAt: new Date(),
         },
       ];
-      jest.spyOn(postService, 'searchPostsByKeyword').mockResolvedValue(result);
+      jest.spyOn(postService, 'searchPostsByKeyword').mockResolvedValue(expectedPosts);
 
-      const posts = await controller.searchPostsByKeyword('keyword');
+      const posts = await controller.searchPostsByKeyword(keyword);
 
-      expect(posts).toEqual(result);
-      expect(postService.searchPostsByKeyword).toHaveBeenCalledWith('keyword');
+      expect(posts).toEqual(expectedPosts);
+      expect(postService.searchPostsByKeyword).toHaveBeenCalledWith(keyword);
     });
   });
 
   describe('getPostById', () => {
     it('should return a post by id', async () => {
       const id = '1';
-      const result: IPost = {
+      const expectedPost: IPost = {
         id: '1',
         title: 'Post 1',
         content: 'Lorem ipsum',
         author: 'John Doe',
         createdAt: new Date(),
       };
-      jest.spyOn(postService, 'getPostById').mockResolvedValue(result);
+      jest.spyOn(postService, 'getPostById').mockResolvedValue(expectedPost);
 
       const post = await controller.getPostById(id);
 
-      expect(post).toEqual(result);
+      expect(post).toEqual(expectedPost);
       expect(postService.getPostById).toHaveBeenCalledWith(id);
     });
   });
