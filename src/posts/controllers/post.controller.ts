@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { PostService } from '../services/post.service';
 import { IPost } from '../schemas/models/post.interface';
-import { AuthGuard } from 'src/shared/guards/auth.guard';
+import { AuthGuard } from '../../shared/guards/auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { z } from 'zod';
 import { ZodValidationPipe } from 'src/shared/pipe/zod-validation.pipe';
