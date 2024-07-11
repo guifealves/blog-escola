@@ -8,11 +8,27 @@ import {
   Put,
   Query,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import { PostService } from '../services/post.service';
 import { IPost } from '../schemas/models/post.interface';
 import { AuthGuard } from '../../shared/guards/auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { z } from 'zod';
+import { ZodValidationPipe } from 'src/shared/pipe/zod-validation.pipe';
+
+const createPostSchema = z.object({
+  title: z.string(),
+  content: z.string(),
+  author: z.string(),
+});
+
+const updatePostSchema = z.object({
+  title: z.string(),
+  content: z.string(),
+});
+
+type CreatePost = z.infer<typeof createPostSchema>;
 
 @ApiTags('posts')
 @Controller('posts')
@@ -53,17 +69,21 @@ export class PostController {
 
   // Criação de Postagens
   @UseGuards(AuthGuard)
+  @UsePipes(new ZodValidationPipe(createPostSchema))
   @Post()
   @ApiBearerAuth()
-  async createPost(@Body() post: IPost) {
-    return this.postService.createPost(post);
+  async createPost(@Body() { title, content, author }: CreatePost) {
+    return this.postService.createPost({ title, content, author });
   }
 
   // Edição de Postagens
   @UseGuards(AuthGuard)
   @Put(':id')
   @ApiBearerAuth()
-  async updatePost(@Param('id') id: string, @Body() post: IPost) {
+  async updatePost(
+    @Param('id') id: string,
+    @Body(new ZodValidationPipe(updatePostSchema)) post: IPost,
+  ) {
     return this.postService.updatePost(id, post);
   }
 
