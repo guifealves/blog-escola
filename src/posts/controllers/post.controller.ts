@@ -36,7 +36,7 @@ export class PostController {
     @Query('limit') limit: number,
     @Query('page') page: number,
   ) {
-    return this.postService.getAllPosts(limit, page);
+    return this.postService.getAllPostsAdmin(limit, page);
   }
 
   // Busca de Posts

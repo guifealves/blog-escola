@@ -10,6 +10,10 @@ export class PostService {
     return this.postRepository.getAllPosts(limit, page);
   }
 
+  async getAllPostsAdmin(limit: number, page: number) {
+    return this.postRepository.getAllPostsAdmin(limit, page);
+  }
+
   async getPostById(id: string) {
     const post = this.postRepository.getPostById(id);
     if (!post) {
