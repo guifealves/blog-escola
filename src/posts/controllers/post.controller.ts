@@ -18,14 +18,14 @@ import { z } from 'zod';
 import { ZodValidationPipe } from 'src/shared/pipe/zod-validation.pipe';
 
 const createPostSchema = z.object({
-  title: z.string(),
-  content: z.string(),
-  author: z.string(),
+  title: z.string().min(5),
+  content: z.string().min(10),
+  author: z.string().min(5),
 });
 
 const updatePostSchema = z.object({
-  title: z.string(),
-  content: z.string(),
+  title: z.string().min(5).optional(),
+  content: z.string().min(10).optional(),
 });
 
 type CreatePost = z.infer<typeof createPostSchema>;
