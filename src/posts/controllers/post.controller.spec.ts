@@ -2,6 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PostController } from './post.controller';
 import { PostService } from '../services/post.service';
 import { IPost } from '../schemas/models/post.interface';
+import { PostMongooseRepository } from '../repositories/mongoose/post.mongoose.repository';
+import { PostRepository } from '../repositories/post.repository';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Post, PostSchema } from '../schemas/post.schema';
+import { ConfigModule } from '@nestjs/config';
+import { AuthGuard } from '../../shared/guards/auth.guard';
+import { JwtModule } from '@nestjs/jwt';
 
 describe('PostController', () => {
   let controller: PostController;
@@ -9,8 +16,30 @@ describe('PostController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot({ isGlobal: true }),
+        JwtModule.register({
+          global: true,
+          secret: process.env.JWT_SECRET,
+          signOptions: { expiresIn: '60m' },
+        }),
+        MongooseModule.forRoot(process.env.MONGODB_URI),
+        MongooseModule.forFeature([
+          {
+            name: Post.name,
+            schema: PostSchema,
+          },
+        ]),
+      ],
       controllers: [PostController],
-      providers: [PostService],
+      providers: [
+        {
+          provide: PostRepository,
+          useClass: PostMongooseRepository,
+        },
+        PostService,
+        AuthGuard,
+      ],
     }).compile();
 
     controller = module.get<PostController>(PostController);

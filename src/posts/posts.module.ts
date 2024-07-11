@@ -5,6 +5,7 @@ import { PostRepository } from './repositories/post.repository';
 import { PostMongooseRepository } from './repositories/mongoose/post.mongoose.repository';
 import { PostService } from './services/post.service';
 import { PostController } from './controllers/post.controller';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { PostController } from './controllers/post.controller';
       useClass: PostMongooseRepository,
     },
     PostService,
+    AuthGuard,
   ],
   controllers: [PostController],
 })
