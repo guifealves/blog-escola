@@ -26,6 +26,11 @@ export class PostMongooseRepository implements PostRepository {
       });
   }
 
+  getAllPostsAdmin(limit: number, page: number): Promise<IPost[]> {
+    const offset = (page - 1) * limit;
+    return this.postModel.find().skip(offset).exec();
+  }
+
   getPostById(id: string): Promise<IPost> {
     return this.postModel.findById(id).exec();
   }

@@ -15,7 +15,7 @@ import { IPost } from '../schemas/models/post.interface';
 import { AuthGuard } from '../../shared/guards/auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { z } from 'zod';
-import { ZodValidationPipe } from 'src/shared/pipe/zod-validation.pipe';
+import { ZodValidationPipe } from '../../shared/pipe/zod-validation.pipe';
 
 const createPostSchema = z.object({
   title: z.string().min(5),
@@ -52,7 +52,7 @@ export class PostController {
     @Query('limit') limit: number,
     @Query('page') page: number,
   ) {
-    return this.postService.getAllPosts(limit, page);
+    return this.postService.getAllPostsAdmin(limit, page);
   }
 
   // Busca de Posts
