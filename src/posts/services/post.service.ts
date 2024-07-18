@@ -1,6 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PostRepository } from '../repositories/post.repository';
 import { IPost } from '../schemas/models/post.interface';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class PostService {
@@ -15,6 +20,11 @@ export class PostService {
   }
 
   async getPostById(id: string) {
+    const isValidId = mongoose.isValidObjectId(id);
+    if (!isValidId) {
+      throw new BadRequestException('Please enter correct post id');
+    }
+
     const post = this.postRepository.getPostById(id);
     if (!post) {
       throw new NotFoundException('Post not found');
