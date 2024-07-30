@@ -95,9 +95,9 @@ describe('PostService', () => {
 
   describe('getPostById', () => {
     it('should return a post by ID', async () => {
-      const id = '1';
+      const id = '507f1f77bcf86cd799439011';
       const expectedPost: IPost = {
-        id: '1',
+        id: id,
         title: 'Post 1',
         content: 'Lorem ipsum',
         author: 'John Doe',
