@@ -9,10 +9,10 @@ import {
 } from '@nestjs/common';
 import { TeacherService } from '../services/teacher.service';
 import { hash } from 'bcrypt';
-import { AuthService } from 'src/shared/guards/services/auth.service';
+import { AuthService } from '../../shared/guards/services/auth.service';
 import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import { z } from 'zod';
-import { ZodValidationPipe } from 'src/shared/pipe/zod-validation.pipe';
+import { ZodValidationPipe } from '../../shared/pipe/zod-validation.pipe';
 
 const createTeacherSchema = z.object({
   name: z.string().min(1),
