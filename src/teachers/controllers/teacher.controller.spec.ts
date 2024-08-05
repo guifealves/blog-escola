@@ -2,8 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TeacherController } from './teacher.controller';
 import { TeacherService } from '../services/teacher.service';
 import { AuthService } from '../../shared/guards/services/auth.service';
-import { ZodValidationPipe } from '../../shared/pipe/zod-validation.pipe';
-import { z } from 'zod';
 
 class MockAuthService {
   validateUser(email: string, password: string) {
