@@ -1,5 +1,7 @@
+import { ObjectId } from 'mongoose';
+
 export interface ITeacher {
-  id?: string;
+  id?: ObjectId;
   name: string;
   email: string;
   password: string;

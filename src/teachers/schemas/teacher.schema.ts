@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ITeacher } from './models/teacher.interface';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { ObjectId } from 'mongoose';
 
 export type TeacherDocument = HydratedDocument<Teacher>;
 
@@ -9,7 +10,7 @@ export type TeacherDocument = HydratedDocument<Teacher>;
 export class Teacher implements ITeacher {
   @Prop({ type: mongoose.Schema.Types.ObjectId })
   @ApiProperty()
-  id?: string;
+  id?: ObjectId;
 
   @Prop({ required: true })
   @ApiProperty()
