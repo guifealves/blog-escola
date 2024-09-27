@@ -4,7 +4,7 @@ export abstract class PostRepository {
   abstract getAllPosts(
     limit: number,
     page: number,
-  ): Promise<{ id: string; title: string; author: string; createdAt: Date }[]>;
+  ): Promise<{ id: string; title: string; content: string; author: string; createdAt: Date }[]>;
   abstract getAllPostsAdmin(limit: number, page: number): Promise<IPost[]>;
   abstract getPostById(id: string): Promise<IPost>;
   abstract createPost(post: IPost): Promise<void>;
